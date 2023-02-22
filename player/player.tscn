@@ -1,14 +1,25 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://player/player_bottom_frames.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://player/player_top_frames.tres" type="SpriteFrames" id=2]
 [ext_resource path="res://player/player.gd" type="Script" id=3]
+[ext_resource path="res://weapons/crosshair.tscn" type="PackedScene" id=4]
+[ext_resource path="res://game_logic/panning_camera.gd" type="Script" id=5]
+[ext_resource path="res://weapons/bullet_player.tscn" type="PackedScene" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 5, 10 )
 
 [node name="Player" type="KinematicBody2D" groups=["Player"]]
 script = ExtResource( 3 )
+bullet_scene = ExtResource( 6 )
+
+[node name="Node" type="Node" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="Node"]
+current = true
+zoom = Vector2( 0.2, 0.2 )
+script = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["Player"]]
 position = Vector2( 0, -10 )
@@ -27,3 +38,7 @@ frame = 2
 
 [node name="BulletOrigin" type="Node2D" parent="." groups=["Player"]]
 position = Vector2( 8.87598, -15.876 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Crosshair" parent="CanvasLayer" instance=ExtResource( 4 )]
