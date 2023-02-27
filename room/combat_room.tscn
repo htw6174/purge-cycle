@@ -1,34 +1,88 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://room/room_controller.gd" type="Script" id=1]
+[ext_resource path="res://room/door.tscn" type="PackedScene" id=2]
 
-[sub_resource type="GDScript" id=1]
-script/source = "extends Area2D
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 35, 2.5 )
 
-
-"
-
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 2.5, 17.5 )
 
 [node name="CombatRoom" type="Node2D"]
 script = ExtResource( 1 )
+door_paths = [ NodePath("Walls/Top/Door"), NodePath("Walls/Bottom/Door"), NodePath("Walls/Right/Door"), NodePath("Walls/Left/Door") ]
 
 [node name="Floor" type="Polygon2D" parent="."]
-modulate = Color( 0.396078, 0.427451, 0.458824, 1 )
+modulate = Color( 0.866667, 0.501961, 0.443137, 1 )
 polygon = PoolVector2Array( -80, -45, 80, -45, 80, 45, -80, 45 )
 
 [node name="Walls" type="Node2D" parent="."]
-modulate = Color( 0.415686, 0.356863, 0.462745, 1 )
+modulate = Color( 0.501961, 0.690196, 0.752941, 1 )
 
 [node name="Top" type="Polygon2D" parent="Walls"]
 position = Vector2( 0, -45 )
 polygon = PoolVector2Array( -80, -5, 80, -5, 80, 0, -80, 0 )
 
-[node name="ExitArea" type="Area2D" parent="."]
-position = Vector2( 0, -45 )
-script = SubResource( 1 )
+[node name="Door" parent="Walls/Top" instance=ExtResource( 2 )]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitArea"]
-shape = SubResource( 2 )
+[node name="StaticBody2D" type="StaticBody2D" parent="Walls/Top"]
 
-[connection signal="body_entered" from="ExitArea" to="." method="_on_ExitArea_body_entered"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Top/StaticBody2D"]
+position = Vector2( 45, -2.5 )
+shape = SubResource( 3 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Walls/Top/StaticBody2D"]
+position = Vector2( -45, -2.5 )
+shape = SubResource( 3 )
+
+[node name="Bottom" type="Polygon2D" parent="Walls"]
+position = Vector2( 0, 45 )
+polygon = PoolVector2Array( -80, 0, 80, 0, 80, 5, -80, 5 )
+
+[node name="Door" parent="Walls/Bottom" instance=ExtResource( 2 )]
+rotation = -3.14159
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Walls/Bottom"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Bottom/StaticBody2D"]
+position = Vector2( 45, 2.5 )
+shape = SubResource( 3 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Walls/Bottom/StaticBody2D"]
+position = Vector2( -45, 2.5 )
+shape = SubResource( 3 )
+
+[node name="Right" type="Polygon2D" parent="Walls"]
+position = Vector2( 80, 0 )
+polygon = PoolVector2Array( 0, -45, 5, -45, 5, 45, 0, 45 )
+
+[node name="Door" parent="Walls/Right" instance=ExtResource( 2 )]
+rotation = 1.5708
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Walls/Right"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Right/StaticBody2D"]
+position = Vector2( 2.5, 27.5 )
+shape = SubResource( 4 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Walls/Right/StaticBody2D"]
+position = Vector2( 2.5, -27.5 )
+shape = SubResource( 4 )
+
+[node name="Left" type="Polygon2D" parent="Walls"]
+position = Vector2( -80, 0 )
+polygon = PoolVector2Array( -5, -45, 0, -45, 0, 45, -5, 45 )
+
+[node name="Door" parent="Walls/Left" instance=ExtResource( 2 )]
+rotation = 4.71239
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Walls/Left"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Left/StaticBody2D"]
+position = Vector2( -2.5, 27.5 )
+shape = SubResource( 4 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Walls/Left/StaticBody2D"]
+position = Vector2( -2.5, -27.5 )
+shape = SubResource( 4 )
