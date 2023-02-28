@@ -10,7 +10,7 @@ var doors: Array # Array of Door
 # Should be set when instancing
 var level_position: Vector2
 
-signal room_complete(room)
+signal room_completed(room)
 signal door_entered(room, direction)
 
 func _ready():

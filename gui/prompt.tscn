@@ -1,0 +1,56 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://gui/prompt.gd" type="Script" id=1]
+
+[node name="Prompt" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+prompt_label_path = NodePath("VBoxContainer/PanelContainer/PromptLabel")
+yes_button_path = NodePath("VBoxContainer/HBoxContainer/YesButton")
+no_button_path = NodePath("VBoxContainer/HBoxContainer/NoButton")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 100.0
+margin_top = -200.0
+margin_right = -100.0
+margin_bottom = -100.0
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+margin_right = 824.0
+margin_bottom = 89.0
+
+[node name="PromptLabel" type="RichTextLabel" parent="VBoxContainer/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 817.0
+margin_bottom = 82.0
+text = "This is the question being asked in a prompt. Would you like to proceed?
+Warning:
+The question
+could be
+pretty long"
+fit_content_height = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 93.0
+margin_right = 824.0
+margin_bottom = 113.0
+
+[node name="YesButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_right = 86.0
+margin_bottom = 20.0
+text = "Affirmative!"
+
+[node name="NoButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_left = 90.0
+margin_right = 170.0
+margin_bottom = 20.0
+text = "No can do!"
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/YesButton" to="." method="_on_YesButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/NoButton" to="." method="_on_NoButton_pressed"]

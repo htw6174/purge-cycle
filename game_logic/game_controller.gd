@@ -10,13 +10,15 @@ var active_room: RoomController
 signal level_started(entry_room)
 signal room_changed(room_exited, room_entered, direction)
 signal room_completed(room)
+signal purge_activated()
+signal player_prompted(prompt_text, yes_text, no_text)
 
 func set_active_room(room: RoomController):
 	# disconnect old room signals
 	if active_room != null:
-		active_room.disconnect("room_completed", self, "_on_RoomController_room_complete")
+		active_room.disconnect("room_completed", self, "_on_RoomController_room_completed")
 	# connect to new room signals
-	room.connect("room_completed", self, "_on_RoomController_room_complete")
+	room.connect("room_completed", self, "_on_RoomController_room_completed")
 	active_room = room
 
 func _on_LevelController_generation_finished(entry_room: RoomController):
@@ -28,5 +30,13 @@ func _on_LevelController_room_changed(room_exited: RoomController, room_entered:
 	set_active_room(room_entered)
 	emit_signal("room_changed", room_exited, room_entered, direction)
 
-func _on_RoomController_room_complete(room: Node2D):
+func _on_RoomController_room_completed(room: Node2D):
 	emit_signal("room_completed", room)
+
+func _on_PurgeSwitch_player_approached():
+	# TODO: figure out a better way to store dialogue strings
+	emit_signal("player_prompted", "It's a control console. \nFrom here, you can activate the Purge Cycle for this floor.", "Input activation sequence", "Not yet")
+
+func _on_Prompt_response_received(was_yes_chosen: bool):
+	if was_yes_chosen:
+		emit_signal("purge_activated")

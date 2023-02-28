@@ -12,6 +12,8 @@ signal room_changed(room_exited, room_entered, direction)
 export(int) var max_width: int = 5
 export(int) var max_height: int = 5
 export(PackedScene) var room_scene: PackedScene
+export(PackedScene) var exit_scene: PackedScene
+export(PackedScene) var switch_scene: PackedScene
 
 var rooms: Array# Array of Array of RoomController
 
@@ -39,14 +41,18 @@ func generate_level():
 	var next_room_position: Vector2 = Vector2(0, mid_row)
 	# store for signal after generation is complete
 	var entry_room = create_room(next_room_position.x, next_room_position.y)
-	# TODO: add level exit to RoomController, enable on entry_room
+	var level_exit = exit_scene.instance() as Node2D
+	# add level exit to first room
+	entry_room.add_child(level_exit)
+	#level_exit.position = entry_room.position
 	# place next room to the right
 	var next_room_direction = Defs.Direction.RIGHT
 	next_room_position += Defs.direction_vectors[next_room_direction]
 	var next_room_inside: bool = is_position_inside_level(next_room_position)
 	# keep adding rooms to the right, top, or bottom until right edge is hit
+	var instanced_room: RoomController
 	while next_room_inside:
-		create_room(next_room_position.x, next_room_position.y)
+		instanced_room = create_room(next_room_position.x, next_room_position.y)
 		# determine valid directions for new room
 		# only pick from first 3 directions i.e. don't go left
 		var valid = [Defs.Direction.UP, Defs.Direction.DOWN, Defs.Direction.RIGHT]
@@ -61,6 +67,9 @@ func generate_level():
 		next_room_position += Defs.direction_vectors[next_room_direction]
 		next_room_inside = is_position_inside_level(next_room_position)
 	# TODO: add purge cycle switch to last room
+	var purge_switch = switch_scene.instance() as Node2D
+	instanced_room.add_child(purge_switch)
+	#purge_switch.position = instanced_room.position
 	# TODO: add side rooms
 	# Go back through all rooms to do post-generation setup (enable connecting doors etc.)
 	for y in rooms.size():
@@ -87,7 +96,7 @@ func generate_level():
 					right.activate_door(Defs.Direction.LEFT)
 	emit_signal("generation_finished", entry_room)
 
-func create_room(x: int, y: int):
+func create_room(x: int, y: int) -> RoomController:
 	var new_room = room_scene.instance() as RoomController
 	self.add_child(new_room)
 	new_room.owner = self
