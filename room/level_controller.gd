@@ -8,6 +8,7 @@ const room_size: Vector2 = room_inner_size + room_padding
 
 signal generation_finished()
 signal room_changed(room_exited, room_entered, direction)
+signal level_exited()
 
 export(int) var max_width: int = 5
 export(int) var max_height: int = 5
@@ -20,13 +21,22 @@ var rooms: Array# Array of Array of RoomController
 func _ready():
 	self.connect("generation_finished", GameController, "_on_LevelController_generation_finished")
 	self.connect("room_changed", GameController, "_on_LevelController_room_changed")
+	self.connect("level_exited", GameController, "_on_LevelController_level_exited")
+	GameController.connect("level_changed", self, "_on_GameController_level_changed")
 	# hacky way to ensure rest of scene is loaded before generation starts
 	get_tree().root.connect("ready", self, "_on_Root_ready")
 
 func _on_Root_ready():
 	generate_level()
 
+func clear_level():
+	var instances = self.get_children()
+	for instance in instances:
+		instance.queue_free()
+	rooms.clear()
+
 func generate_level():
+	clear_level()
 	randomize()
 	
 	rooms = []
@@ -44,6 +54,7 @@ func generate_level():
 	var level_exit = exit_scene.instance() as Node2D
 	# add level exit to first room
 	entry_room.add_child(level_exit)
+	level_exit.connect("entered", self, "_on_LevelExit_entered")
 	#level_exit.position = entry_room.position
 	# place next room to the right
 	var next_room_direction = Defs.Direction.RIGHT
@@ -122,3 +133,13 @@ func _on_RoomController_door_entered(room: RoomController, direction: int):
 			print_debug("ERROR: door points to non-existant room")
 	else:
 		print_debug("ERROR: door points outside level bounds")
+
+func _on_GameController_purge_activated():
+	# TODO: set all rooms to purge mode (turn on sirens, unlock all doors, enable infinite spawning)
+	pass
+
+func _on_LevelExit_entered():
+	emit_signal("level_exited")
+
+func _on_GameController_level_changed():
+	generate_level()

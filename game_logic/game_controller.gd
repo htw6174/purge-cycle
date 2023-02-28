@@ -8,6 +8,8 @@ extends Node
 var active_room: RoomController
 
 signal level_started(entry_room)
+signal level_exited()
+signal level_changed()
 signal room_changed(room_exited, room_entered, direction)
 signal room_completed(room)
 signal purge_activated()
@@ -40,3 +42,7 @@ func _on_PurgeSwitch_player_approached():
 func _on_Prompt_response_received(was_yes_chosen: bool):
 	if was_yes_chosen:
 		emit_signal("purge_activated")
+
+func _on_LevelController_level_exited():
+	emit_signal("level_exited")
+	emit_signal("level_changed")
