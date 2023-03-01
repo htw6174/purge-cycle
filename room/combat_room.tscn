@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://room/room_controller.gd" type="Script" id=1]
 [ext_resource path="res://room/door.tscn" type="PackedScene" id=2]
+[ext_resource path="res://room/obstacles/table.tscn" type="PackedScene" id=3]
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 35, 2.5 )
@@ -86,3 +87,11 @@ shape = SubResource( 4 )
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Walls/Left/StaticBody2D"]
 position = Vector2( -2.5, -27.5 )
 shape = SubResource( 4 )
+
+[node name="Obstacles" type="Node2D" parent="."]
+
+[node name="Table" parent="Obstacles" instance=ExtResource( 3 )]
+position = Vector2( -35, -21 )
+
+[node name="Table2" parent="Obstacles" instance=ExtResource( 3 )]
+position = Vector2( 0, 21 )

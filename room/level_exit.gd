@@ -8,11 +8,11 @@ signal entered()
 
 func _ready():
 	GameController.connect("purge_activated", self, "_on_GameController_purge_activated")
-	closed_collider.disabled = is_open
+	closed_collider.set_deferred("disabled", is_open)
 
 func _on_GameController_purge_activated():
 	is_open = true
-	closed_collider.disabled = true
+	closed_collider.set_deferred("disabled", true)
 	$Polygon2D.color = Color.white
 
 

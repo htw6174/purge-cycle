@@ -4,6 +4,8 @@ class_name Player
 
 export(float) var move_speed: float = 60
 export(PackedScene) var bullet_scene: PackedScene
+export(NodePath) var crosshair_path: NodePath
+onready var crosshair: Node2D = get_node(crosshair_path)
 
 var controls_enabled = true
 var fire_tween
@@ -16,7 +18,7 @@ func _ready():
 	fire_tween.tween_callback(self, "fire").set_delay(0.2) # TODO: use default weapon delay
 	fire_tween.stop()
 
-func _process(delta):
+func _physics_process(delta):
 	if controls_enabled:
 		var move_vector = Vector2.ZERO
 		if Input.is_action_pressed("move_right"):
@@ -29,9 +31,10 @@ func _process(delta):
 			move_vector.y -= 1
 		
 		if move_vector.length() > 0:
-			move_vector = move_vector.normalized() * move_speed * delta
-			
-		self.move_and_collide(move_vector)
+			move_vector = move_vector.normalized() * move_speed
+		
+		# velocity should NOT factor in delta
+		self.move_and_slide(move_vector)
 		
 		if Input.is_action_just_pressed("fire_primary"):
 			start_fire()
@@ -46,10 +49,10 @@ func stop_fire():
 	fire_tween.stop()
 
 func fire():
-	print("Fire!")
-	var new_shot = bullet_scene.instance()
+	var new_shot = bullet_scene.instance() as Bullet
 	new_shot.position = self.position + $BulletOrigin.position
 	$Unattached/FiredShots.add_child(new_shot)
+	new_shot.fire_towards(crosshair)
 	#new_shot.owner = $Unattached/FiredShots
 
 func start_room_change(room_entered: RoomController, direction: int):

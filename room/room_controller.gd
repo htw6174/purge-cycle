@@ -33,7 +33,7 @@ func activate_door(direction: int):
 func activate_room():
 	# enable exit door colliders, start combat wave on first entry
 	for door in doors:
-		door.is_open = is_exitable
+		door.is_open = door.visible and is_exitable
 
 func deactivate_room():
 	for door in doors:
