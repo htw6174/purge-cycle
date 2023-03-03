@@ -1,15 +1,20 @@
 extends KinematicBody2D
 
-export(int) var hazard_rating: int = 1
-export(int) var hp_max: int = 1
-export(float) var move_speed: float = 20
+class_name Enemy
+
+export(Resource) var preset: Resource # EnemyPreset
 
 var hp_current: int
 
 var target: Node2D
 
+signal died()
+
 func _ready():
-	hp_current = hp_max
+	assert(preset != null and preset is EnemyPreset)
+	hp_current = preset.hp_max
+	self.scale *= preset.size_scale
+	$AnimationPlayer.play("spawn_drop")
 
 func _physics_process(delta):
 	if target == null:
@@ -18,11 +23,12 @@ func _physics_process(delta):
 			target = player_nodes[0]
 	if target:
 		var to_vector = self.global_position.direction_to(target.global_position)
-		self.move_and_slide(to_vector * move_speed)
+		self.move_and_slide(to_vector * preset.move_speed)
 
 func take_damage(amount: int):
 	hp_current -= amount
 	if hp_current <= 0:
+		emit_signal("died")
 		self.queue_free()
 
 

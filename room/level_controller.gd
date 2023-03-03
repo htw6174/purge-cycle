@@ -51,6 +51,7 @@ func generate_level():
 	var next_room_position: Vector2 = Vector2(0, mid_row)
 	# store for signal after generation is complete
 	var entry_room = create_room(next_room_position.x, next_room_position.y)
+	entry_room.is_hostile = false
 	var level_exit = exit_scene.instance() as Node2D
 	# add level exit to first room
 	entry_room.add_child(level_exit)
@@ -77,7 +78,8 @@ func generate_level():
 		next_room_direction = valid[randi() % valid.size()]
 		next_room_position += Defs.direction_vectors[next_room_direction]
 		next_room_inside = is_position_inside_level(next_room_position)
-	# TODO: add purge cycle switch to last room
+	# add purge cycle switch to last room
+	instanced_room.is_hostile = false
 	var purge_switch = switch_scene.instance() as Node2D
 	instanced_room.add_child(purge_switch)
 	#purge_switch.position = instanced_room.position

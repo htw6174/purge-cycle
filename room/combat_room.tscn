@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://room/room_controller.gd" type="Script" id=1]
 [ext_resource path="res://room/door.tscn" type="PackedScene" id=2]
 [ext_resource path="res://room/obstacles/table.tscn" type="PackedScene" id=3]
+[ext_resource path="res://enemy/spawner.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 35, 2.5 )
@@ -13,6 +14,7 @@ extents = Vector2( 2.5, 17.5 )
 [node name="CombatRoom" type="Node2D"]
 script = ExtResource( 1 )
 door_paths = [ NodePath("Walls/Top/Door"), NodePath("Walls/Bottom/Door"), NodePath("Walls/Right/Door"), NodePath("Walls/Left/Door") ]
+spawner_paths = [ NodePath("Spawners/TopLeft") ]
 
 [node name="Floor" type="Polygon2D" parent="."]
 modulate = Color( 0.866667, 0.501961, 0.443137, 1 )
@@ -95,3 +97,8 @@ position = Vector2( -35, -21 )
 
 [node name="Table2" parent="Obstacles" instance=ExtResource( 3 )]
 position = Vector2( 0, 21 )
+
+[node name="Spawners" type="Node2D" parent="."]
+
+[node name="TopLeft" parent="Spawners" instance=ExtResource( 4 )]
+position = Vector2( 66, -32 )

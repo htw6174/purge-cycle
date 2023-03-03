@@ -1,0 +1,10 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://enemy/enemy_preset.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+hazard = 2
+hp_max = 2
+move_speed = 25.0
+size_scale = 1.0

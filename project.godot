@@ -24,6 +24,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://room/door.gd"
 }, {
+"base": "KinematicBody2D",
+"class": "Enemy",
+"language": "GDScript",
+"path": "res://enemy/enemy.gd"
+}, {
+"base": "Resource",
+"class": "EnemyPreset",
+"language": "GDScript",
+"path": "res://enemy/enemy_preset.gd"
+}, {
 "base": "Node",
 "class": "LevelController",
 "language": "GDScript",
@@ -43,15 +53,23 @@ _global_script_classes=[ {
 "class": "RoomController",
 "language": "GDScript",
 "path": "res://room/room_controller.gd"
+}, {
+"base": "Node2D",
+"class": "Spawner",
+"language": "GDScript",
+"path": "res://enemy/spawner.gd"
 } ]
 _global_script_class_icons={
 "Bullet": "",
 "Defs": "",
 "Door": "",
+"Enemy": "",
+"EnemyPreset": "",
 "LevelController": "",
 "Player": "",
 "Prompt": "",
-"RoomController": ""
+"RoomController": "",
+"Spawner": ""
 }
 
 [application]
