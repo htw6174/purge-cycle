@@ -119,8 +119,8 @@ tracks/2/keys = {
 }
 
 [node name="Enemy" type="KinematicBody2D"]
-collision_layer = 17
 script = ExtResource( 1 )
+hp_label_path = NodePath("Control/VBoxContainer/Label")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 color = Color( 0.74902, 0.290196, 0.568627, 1 )
@@ -141,5 +141,27 @@ shape = SubResource( 2 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 3 )
 anims/spawn_drop = SubResource( 4 )
+
+[node name="Control" type="Control" parent="."]
+margin_left = -10.0
+margin_right = 10.0
+margin_bottom = 10.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="Control/VBoxContainer"]
+margin_right = 37.0
+margin_bottom = 14.0
+text = "20/20"
+
+[node name="ProgressBar" type="ProgressBar" parent="Control/VBoxContainer"]
+margin_top = 18.0
+margin_right = 37.0
+margin_bottom = 20.0
+percent_visible = false
 
 [connection signal="area_entered" from="HitBoxArea" to="." method="_on_HitBoxArea_area_entered"]

@@ -126,12 +126,13 @@ fire_primary={
 
 [layer_names]
 
-2d_physics/layer_1="RigidBody"
+2d_physics/layer_1="BlockLow"
 2d_physics/layer_2="Trigger"
 2d_physics/layer_3="FriendlyBody"
 2d_physics/layer_4="FriendlyAttack"
 2d_physics/layer_5="EnemyBody"
 2d_physics/layer_6="EnemyAttack"
+2d_physics/layer_9="BlockHigh"
 
 [physics]
 

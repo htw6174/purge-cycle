@@ -66,6 +66,8 @@ disabled = true
 
 [node name="ClosedBody" type="StaticBody2D" parent="."]
 position = Vector2( 0, -5 )
+collision_layer = 257
+collision_mask = 0
 
 [node name="Collider" type="CollisionShape2D" parent="ClosedBody"]
 scale = Vector2( 1, 0.5 )

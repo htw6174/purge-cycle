@@ -30,6 +30,8 @@ polygon = PoolVector2Array( -80, -5, 80, -5, 80, 0, -80, 0 )
 [node name="Door" parent="Walls/Top" instance=ExtResource( 2 )]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Walls/Top"]
+collision_layer = 257
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Top/StaticBody2D"]
 position = Vector2( 45, -2.5 )
@@ -47,6 +49,8 @@ polygon = PoolVector2Array( -80, 0, 80, 0, 80, 5, -80, 5 )
 rotation = -3.14159
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Walls/Bottom"]
+collision_layer = 257
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Bottom/StaticBody2D"]
 position = Vector2( 45, 2.5 )
@@ -64,6 +68,8 @@ polygon = PoolVector2Array( 0, -45, 5, -45, 5, 45, 0, 45 )
 rotation = 1.5708
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Walls/Right"]
+collision_layer = 257
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Right/StaticBody2D"]
 position = Vector2( 2.5, 27.5 )
@@ -81,6 +87,8 @@ polygon = PoolVector2Array( -5, -45, 0, -45, 0, 45, -5, 45 )
 rotation = 4.71239
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Walls/Left"]
+collision_layer = 257
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/Left/StaticBody2D"]
 position = Vector2( -2.5, 27.5 )
@@ -94,9 +102,11 @@ shape = SubResource( 4 )
 
 [node name="Table" parent="Obstacles" instance=ExtResource( 3 )]
 position = Vector2( -35, -21 )
+collision_mask = 0
 
 [node name="Table2" parent="Obstacles" instance=ExtResource( 3 )]
 position = Vector2( 0, 21 )
+collision_mask = 0
 
 [node name="Spawners" type="Node2D" parent="."]
 

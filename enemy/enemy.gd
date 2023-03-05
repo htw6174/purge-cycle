@@ -4,6 +4,9 @@ class_name Enemy
 
 export(Resource) var preset: Resource # EnemyPreset
 
+export(NodePath) var hp_label_path: NodePath
+onready var hp_label: Label = get_node(hp_label_path)
+
 var hp_current: int
 
 var target: Node2D
@@ -13,6 +16,7 @@ signal died()
 func _ready():
 	assert(preset != null and preset is EnemyPreset)
 	hp_current = preset.hp_max
+	hp_label.text = "{0}/{1}".format([hp_current, preset.hp_max])
 	self.scale *= preset.size_scale
 	$AnimationPlayer.play("spawn_drop")
 
@@ -27,6 +31,7 @@ func _physics_process(delta):
 
 func take_damage(amount: int):
 	hp_current -= amount
+	hp_label.text = "{0}/{1}".format([hp_current, preset.hp_max])
 	if hp_current <= 0:
 		emit_signal("died")
 		self.queue_free()
