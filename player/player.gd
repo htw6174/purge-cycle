@@ -2,17 +2,27 @@ extends KinematicBody2D
 
 class_name Player
 
+export(float) var max_hp: int = 3
 export(float) var move_speed: float = 60
 export(PackedScene) var bullet_scene: PackedScene
 export(NodePath) var crosshair_path: NodePath
 onready var crosshair: Node2D = get_node(crosshair_path)
 
-var controls_enabled = true
-var fire_tween
+var current_hp: int
+var controls_enabled: bool = true
+var fire_tween: SceneTreeTween
+
+signal hp_changed(new_hp)
+signal died()
 
 func _ready():
 	GameController.connect("level_started", self, "_on_GameController_level_started")
 	GameController.connect("room_changed", self, "_on_GameController_room_changed")
+	self.connect("hp_changed", GameController, "_on_Player_hp_changed")
+	self.connect("died", GameController, "_on_Player_died")
+	
+	current_hp = max_hp
+	emit_signal("hp_changed", current_hp)
 	
 	fire_tween = self.create_tween().set_loops()
 	fire_tween.tween_callback(self, "fire").set_delay(0.2) # TODO: use default weapon delay
@@ -69,8 +79,17 @@ func end_room_change():
 	$CollisionShape2D.set_deferred("disabled", false)
 	self.controls_enabled = true
 
+func take_damage():
+	current_hp -= 1
+	emit_signal("hp_changed", current_hp)
+	if current_hp <= 0:
+		emit_signal("died")
+
 func _on_GameController_level_started(entry_room: RoomController):
 	self.position = entry_room.position
 
 func _on_GameController_room_changed(room_exited, room_entered, direction):
 	start_room_change(room_entered, direction)
+
+func _on_HitBoxArea_area_entered(area):
+	take_damage()

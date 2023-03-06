@@ -81,6 +81,7 @@ config/icon="res://icon.png"
 [autoload]
 
 GameController="*res://game_logic/game_controller.gd"
+ResourceLibrary="*res://game_logic/resource_library.gd"
 
 [display]
 

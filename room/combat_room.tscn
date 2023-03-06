@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://room/room_controller.gd" type="Script" id=1]
 [ext_resource path="res://room/door.tscn" type="PackedScene" id=2]
-[ext_resource path="res://room/obstacles/table.tscn" type="PackedScene" id=3]
 [ext_resource path="res://enemy/spawner.tscn" type="PackedScene" id=4]
 
 [sub_resource type="RectangleShape2D" id=3]
@@ -100,13 +99,17 @@ shape = SubResource( 4 )
 
 [node name="Obstacles" type="Node2D" parent="."]
 
-[node name="Table" parent="Obstacles" instance=ExtResource( 3 )]
-position = Vector2( -35, -21 )
-collision_mask = 0
+[node name="TopLeft" type="Node2D" parent="Obstacles"]
+position = Vector2( -40, -22 )
 
-[node name="Table2" parent="Obstacles" instance=ExtResource( 3 )]
-position = Vector2( 0, 21 )
-collision_mask = 0
+[node name="TopRight" type="Node2D" parent="Obstacles"]
+position = Vector2( 40, -22 )
+
+[node name="BottomLeft" type="Node2D" parent="Obstacles"]
+position = Vector2( -40, 23 )
+
+[node name="BottomRight" type="Node2D" parent="Obstacles"]
+position = Vector2( 40, 23 )
 
 [node name="Spawners" type="Node2D" parent="."]
 

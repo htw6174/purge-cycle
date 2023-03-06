@@ -57,3 +57,5 @@ script = ExtResource( 5 )
 [node name="FiredShots" type="Node2D" parent="Unattached"]
 
 [node name="Crosshair" parent="Unattached" instance=ExtResource( 4 )]
+
+[connection signal="area_entered" from="HitBoxArea" to="." method="_on_HitBoxArea_area_entered"]

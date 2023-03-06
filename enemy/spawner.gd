@@ -2,12 +2,9 @@ extends Node2D
 
 class_name Spawner
 
+export(bool) var spawn_repeating: bool = false
 export(float) var spawn_interval: float = 1.0
-export(String) var enemy_presets_directory = "res://enemy/presets/"
 export(PackedScene) var enemy_scene: PackedScene
-
-# TODO: should bucket by cost
-var presets: Array # Array of EnemyPreset
 
 var wave_enemies: Array
 var wave_spawn_index: int = 0
@@ -18,16 +15,7 @@ signal spawning_finished()
 signal all_spawned_are_dead()
 
 func _ready():
-	# load presets
-	var dir = Directory.new()
-	if dir.open(enemy_presets_directory) == OK:
-		dir.list_dir_begin(true, true)
-		var filename: String = dir.get_next()
-		while filename != "":
-			# load file if resource
-			if filename.ends_with(".tres"):
-				presets.append(load(enemy_presets_directory + filename))
-			filename = dir.get_next()
+	pass
 
 func spawn_wave(tokens: int):
 	# check if wave is in progress
@@ -45,7 +33,7 @@ func spawn_wave(tokens: int):
 	wave_enemies = []
 	while count_to_spawn > 0:
 		var enemy_budget: int = int(wave_budget / count_to_spawn)
-		var preset = get_preset_by_cost(enemy_budget)
+		var preset = ResourceLibrary.get_random_enemy_preset(enemy_budget)
 		wave_enemies.append(preset)
 		count_to_spawn -= 1
 		wave_budget -= preset.hazard # could be less than budgeted cost
@@ -57,9 +45,15 @@ func spawn_wave(tokens: int):
 	$Timer.start()
 	emit_signal("spawning_started")
 
-func get_preset_by_cost(tokens: int) -> EnemyPreset:
-	# TODO: get random preset with cost <= tokens
-	return presets[randi() % presets.size()]
+func start_spawn_repeating():
+	spawn_repeating = true
+	$Timer.start()
+	emit_signal("spawning_started")
+
+func stop_spawn_repeating():
+	spawn_repeating = false
+	$Timer.stop()
+	emit_signal("spawning_finished")
 
 func spawn_enemy(preset: EnemyPreset):
 	var new_enemy = enemy_scene.instance() as Enemy
@@ -76,8 +70,14 @@ func spawn_next():
 		$Timer.stop()
 		emit_signal("spawning_finished")
 
+func spawn_random():
+	spawn_enemy(ResourceLibrary.get_random_enemy_preset())
+
 func _on_Timer_timeout():
-	spawn_next()
+	if spawn_repeating:
+		spawn_random()
+	else:
+		spawn_next()
 
 func _on_Enemy_died():
 	died_count += 1

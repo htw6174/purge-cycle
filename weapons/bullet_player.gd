@@ -21,5 +21,9 @@ func _on_Timer_timeout():
 	self_destruct()
 
 
+func _on_PlayerBullet_area_entered(area):
+	self_destruct()
+
+
 func _on_PlayerBullet_body_entered(body):
 	self_destruct()

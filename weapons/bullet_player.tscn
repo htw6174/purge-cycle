@@ -21,5 +21,6 @@ texture = ExtResource( 1 )
 [node name="Timer" type="Timer" parent="."]
 autostart = true
 
+[connection signal="area_entered" from="." to="." method="_on_PlayerBullet_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_PlayerBullet_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

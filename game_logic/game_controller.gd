@@ -6,14 +6,16 @@ extends Node
 
 # TODO: is there really a need for the active room thing?
 var active_room: RoomController
+var is_purge_active: bool = false
 
 signal level_started(entry_room)
 signal level_exited()
 signal level_changed()
 signal room_changed(room_exited, room_entered, direction)
 signal room_completed(room)
-signal purge_activated()
+signal purge_activated(duration)
 signal player_prompted(prompt_text, yes_text, no_text)
+signal hp_changed(new_hp)
 
 func set_active_room(room: RoomController):
 	# disconnect old room signals
@@ -41,8 +43,17 @@ func _on_PurgeSwitch_player_approached():
 
 func _on_Prompt_response_received(was_yes_chosen: bool):
 	if was_yes_chosen:
-		emit_signal("purge_activated")
+		is_purge_active = true
+		emit_signal("purge_activated", 15.0)
 
 func _on_LevelController_level_exited():
+	is_purge_active = false
 	emit_signal("level_exited")
 	emit_signal("level_changed")
+
+func _on_Player_hp_changed(new_hp: int):
+	emit_signal("hp_changed", new_hp)
+
+func _on_Player_died():
+	print("gg loser")
+	pass # TODO: pause + end game, show score screen
