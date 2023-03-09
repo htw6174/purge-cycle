@@ -5,7 +5,7 @@
 extends Node
 
 # TODO: is there really a need for the active room thing?
-var active_room: RoomController
+var active_room
 var is_purge_active: bool = false
 
 signal level_started(entry_room)
@@ -17,7 +17,7 @@ signal purge_activated(duration)
 signal player_prompted(prompt_text, yes_text, no_text)
 signal hp_changed(new_hp)
 
-func set_active_room(room: RoomController):
+func set_active_room(room):
 	# disconnect old room signals
 	if active_room != null:
 		active_room.disconnect("room_completed", self, "_on_RoomController_room_completed")
@@ -25,12 +25,12 @@ func set_active_room(room: RoomController):
 	room.connect("room_completed", self, "_on_RoomController_room_completed")
 	active_room = room
 
-func _on_LevelController_generation_finished(entry_room: RoomController):
+func _on_LevelController_generation_finished(entry_room):
 	set_active_room(entry_room)
 	emit_signal("level_started", entry_room)
 	emit_signal("room_changed", null, entry_room, Defs.Direction.UP)
 
-func _on_LevelController_room_changed(room_exited: RoomController, room_entered: RoomController, direction: int):
+func _on_LevelController_room_changed(room_exited, room_entered, direction: int):
 	set_active_room(room_entered)
 	emit_signal("room_changed", room_exited, room_entered, direction)
 

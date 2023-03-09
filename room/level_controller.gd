@@ -2,7 +2,7 @@ extends Node
 
 class_name LevelController
 
-const room_inner_size: Vector2 = Vector2(160, 90)
+const room_inner_size: Vector2 = Vector2(348, 216)
 const room_padding: Vector2 = Vector2(20, 20)
 const room_size: Vector2 = room_inner_size + room_padding
 

@@ -21,76 +21,63 @@ door_paths = [ NodePath("Walls/Top/Door"), NodePath("Walls/Bottom/Door"), NodePa
 spawner_paths = [ NodePath("Spawners/TopLeft") ]
 
 [node name="Floor" type="Node2D" parent="."]
-position = Vector2( 0, 11 )
+position = Vector2( 0, 23 )
 
-[node name="TopLeft" type="Node2D" parent="Floor"]
-position = Vector2( -43.5, -22 )
-
-[node name="Floor" type="Sprite" parent="Floor/TopLeft"]
-position = Vector2( -2.86102e-06, -1.19209e-07 )
-scale = Vector2( 0.025, 0.025 )
-z_index = -2
+[node name="Floor" type="Sprite" parent="Floor"]
+scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 5 )
 
+[node name="Reflection" type="Sprite" parent="Floor"]
+position = Vector2( 0, -23 )
+scale = Vector2( 0.05, 0.05 )
+texture = ExtResource( 8 )
+
+[node name="TopLeft" type="Node2D" parent="Floor"]
+position = Vector2( -87, -42 )
+
 [node name="Grill" type="Sprite" parent="Floor/TopLeft"]
-scale = Vector2( 0.025, 0.025 )
+scale = Vector2( 0.05, 0.05 )
 texture = ExtResource( 6 )
 
 [node name="TopRight" type="Node2D" parent="Floor"]
-position = Vector2( 43.5, -22 )
-
-[node name="Floor" type="Sprite" parent="Floor/TopRight"]
-position = Vector2( -2.86102e-06, -1.19209e-07 )
-scale = Vector2( 0.025, 0.025 )
-z_index = -2
-texture = ExtResource( 5 )
+position = Vector2( 87, -42 )
 
 [node name="Grill" type="Sprite" parent="Floor/TopRight"]
-scale = Vector2( 0.025, 0.025 )
+scale = Vector2( 0.05, 0.05 )
 texture = ExtResource( 6 )
 
 [node name="BottomLeft" type="Node2D" parent="Floor"]
-position = Vector2( -43.5, 20 )
-
-[node name="Floor" type="Sprite" parent="Floor/BottomLeft"]
-position = Vector2( -2.86102e-06, -1.19209e-07 )
-scale = Vector2( 0.025, 0.025 )
-z_index = -2
-texture = ExtResource( 5 )
+position = Vector2( -87, 42 )
 
 [node name="Grill" type="Sprite" parent="Floor/BottomLeft"]
-scale = Vector2( 0.025, 0.025 )
+scale = Vector2( 0.05, 0.05 )
 texture = ExtResource( 6 )
 
 [node name="BottomRight" type="Node2D" parent="Floor"]
-position = Vector2( 43.5, 20 )
-
-[node name="Floor" type="Sprite" parent="Floor/BottomRight"]
-position = Vector2( -2.86102e-06, -1.19209e-07 )
-scale = Vector2( 0.025, 0.025 )
-z_index = -2
-texture = ExtResource( 5 )
+position = Vector2( 87, 42 )
 
 [node name="Grill" type="Sprite" parent="Floor/BottomRight"]
-scale = Vector2( 0.025, 0.025 )
+scale = Vector2( 0.05, 0.05 )
 texture = ExtResource( 6 )
-
-[node name="Sprite" type="Sprite" parent="Floor"]
-position = Vector2( 0, -11 )
-scale = Vector2( 0.025, 0.025 )
-z_index = -1
-texture = ExtResource( 8 )
 
 [node name="Walls" type="Node2D" parent="."]
 
 [node name="Top" type="Node2D" parent="Walls"]
-position = Vector2( 0, -45 )
+position = Vector2( 0, -62 )
 
 [node name="Door" parent="Walls/Top" instance=ExtResource( 2 )]
-visible = false
+
+[node name="LeftWall" type="Sprite" parent="Walls/Top"]
+position = Vector2( -101, -22 )
+scale = Vector2( 0.05, 0.05 )
+texture = ExtResource( 7 )
+
+[node name="RightWall" type="Sprite" parent="Walls/Top"]
+position = Vector2( 101, -22 )
+scale = Vector2( 0.05, 0.05 )
+texture = ExtResource( 7 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Walls/Top"]
-visible = false
 collision_layer = 257
 collision_mask = 0
 
@@ -102,25 +89,13 @@ shape = SubResource( 3 )
 position = Vector2( -45, -2.5 )
 shape = SubResource( 3 )
 
-[node name="LeftWall" type="Sprite" parent="Walls/Top"]
-position = Vector2( -51, 3 )
-scale = Vector2( 0.025, 0.025 )
-texture = ExtResource( 7 )
-
-[node name="RightWall" type="Sprite" parent="Walls/Top"]
-position = Vector2( 50, 3 )
-scale = Vector2( 0.025, 0.025 )
-texture = ExtResource( 7 )
-
 [node name="Bottom" type="Node2D" parent="Walls"]
-position = Vector2( 0, 45 )
+position = Vector2( 0, 108 )
 
 [node name="Door" parent="Walls/Bottom" instance=ExtResource( 2 )]
-visible = false
 rotation = -3.14159
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Walls/Bottom"]
-visible = false
 collision_layer = 257
 collision_mask = 0
 
@@ -133,14 +108,12 @@ position = Vector2( -45, 2.5 )
 shape = SubResource( 3 )
 
 [node name="Right" type="Node2D" parent="Walls"]
-position = Vector2( 80, 0 )
+position = Vector2( 174, 0 )
 
 [node name="Door" parent="Walls/Right" instance=ExtResource( 2 )]
-visible = false
 rotation = 1.5708
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Walls/Right"]
-visible = false
 collision_layer = 257
 collision_mask = 0
 
@@ -153,14 +126,12 @@ position = Vector2( 2.5, -27.5 )
 shape = SubResource( 4 )
 
 [node name="Left" type="Node2D" parent="Walls"]
-position = Vector2( -80, 0 )
+position = Vector2( -174, 0 )
 
 [node name="Door" parent="Walls/Left" instance=ExtResource( 2 )]
-visible = false
 rotation = -1.5708
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Walls/Left"]
-visible = false
 collision_layer = 257
 collision_mask = 0
 
@@ -175,22 +146,22 @@ shape = SubResource( 4 )
 [node name="Obstacles" type="Node2D" parent="."]
 
 [node name="TopLeft" type="Node2D" parent="Obstacles"]
-position = Vector2( -40, -22 )
+position = Vector2( -87, -19 )
 
 [node name="TopRight" type="Node2D" parent="Obstacles"]
-position = Vector2( 40, -22 )
+position = Vector2( 87, -19 )
 
 [node name="BottomLeft" type="Node2D" parent="Obstacles"]
-position = Vector2( -40, 23 )
+position = Vector2( -87, 65 )
 
 [node name="BottomRight" type="Node2D" parent="Obstacles"]
-position = Vector2( 40, 23 )
+position = Vector2( 87, 65 )
 
 [node name="Spawners" type="Node2D" parent="."]
 
 [node name="TopLeft" parent="Spawners" instance=ExtResource( 4 )]
-position = Vector2( 66, -32 )
+position = Vector2( 142, -46 )
 
 [node name="Foreground" type="Sprite" parent="."]
-scale = Vector2( 0.025, 0.025 )
+scale = Vector2( 0.05, 0.05 )
 texture = ExtResource( 3 )

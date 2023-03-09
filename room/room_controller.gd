@@ -35,7 +35,9 @@ func _ready():
 
 func get_entry_point(direction: int) -> Vector2:
 	# position next to the door when entering FROM given direction
-	return self.position + (Defs.direction_vectors[direction] * Vector2(-70, -35))
+	# position of door on opposite side, plus a nudge in the movement direction
+	var opposite_direction = Defs.direction_opposites[direction]
+	return doors[opposite_direction].get_global_position() + (Defs.direction_vectors[direction] * Vector2(20, 20))
 
 func activate_door(direction: int):
 	doors[direction].is_active = true

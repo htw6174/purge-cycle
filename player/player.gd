@@ -3,7 +3,7 @@ extends KinematicBody2D
 class_name Player
 
 export(float) var max_hp: int = 3
-export(float) var move_speed: float = 60
+export(float) var move_speed: float = 120
 export(PackedScene) var bullet_scene: PackedScene
 export(NodePath) var crosshair_path: NodePath
 onready var crosshair: Node2D = get_node(crosshair_path)

@@ -8,11 +8,11 @@
 [ext_resource path="res://weapons/bullet_player.tscn" type="PackedScene" id=6]
 
 [sub_resource type="CircleShape2D" id=3]
-radius = 3.0
+radius = 6.0
 
 [sub_resource type="CapsuleShape2D" id=2]
-radius = 3.0
-height = 12.0
+radius = 4.0
+height = 18.0
 
 [node name="Player" type="KinematicBody2D" groups=["Player"]]
 collision_layer = 3
@@ -22,7 +22,7 @@ bullet_scene = ExtResource( 6 )
 crosshair_path = NodePath("Unattached/Crosshair")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( -1.5, -2 )
+position = Vector2( -3.20949, -1.18242 )
 shape = SubResource( 3 )
 
 [node name="HitBoxArea" type="Area2D" parent="."]
@@ -30,22 +30,22 @@ collision_layer = 4
 collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxArea"]
-position = Vector2( -0.5, -10 )
+position = Vector2( 0.0946045, -13.7906 )
 shape = SubResource( 2 )
 
 [node name="BottomSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -6 )
-scale = Vector2( 0.03, 0.03 )
+scale = Vector2( 0.05, 0.05 )
 frames = ExtResource( 1 )
 
 [node name="TopSprite" type="AnimatedSprite" parent="."]
-position = Vector2( 2.74546, -14.9107 )
-scale = Vector2( 0.03, 0.03 )
+position = Vector2( 4.58086, -20.834 )
+scale = Vector2( 0.05, 0.05 )
 frames = ExtResource( 2 )
 frame = 2
 
 [node name="BulletOrigin" type="Node2D" parent="."]
-position = Vector2( 8.87598, -15.876 )
+position = Vector2( 16.6801, -22.5653 )
 
 [node name="Unattached" type="Node" parent="."]
 
