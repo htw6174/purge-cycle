@@ -1,0 +1,88 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://player/player_bottom_frames.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://temp_art/player_temp/RightArm.gd" type="Script" id=2]
+[ext_resource path="res://player/player.gd" type="Script" id=3]
+[ext_resource path="res://weapons/crosshair.tscn" type="PackedScene" id=4]
+[ext_resource path="res://game_logic/panning_camera.gd" type="Script" id=5]
+[ext_resource path="res://weapons/bullet_player.tscn" type="PackedScene" id=6]
+[ext_resource path="res://temp_art/player_temp/left arm.png" type="Texture" id=7]
+[ext_resource path="res://temp_art/player_temp/right arm.png" type="Texture" id=8]
+[ext_resource path="res://temp_art/player_temp/upper body.png" type="Texture" id=9]
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 6.0
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 4.0
+height = 18.0
+
+[sub_resource type="SpriteFrames" id=4]
+animations = [ {
+"frames": [ ExtResource( 9 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[node name="Player_test" type="KinematicBody2D" groups=["Player"]]
+collision_layer = 3
+collision_mask = 19
+script = ExtResource( 3 )
+bullet_scene = ExtResource( 6 )
+crosshair_path = NodePath("Unattached/Crosshair")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -3.20949, -1.18242 )
+shape = SubResource( 3 )
+
+[node name="HitBoxArea" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitBoxArea"]
+position = Vector2( 0.0946045, -13.7906 )
+shape = SubResource( 2 )
+
+[node name="top" type="Node2D" parent="."]
+position = Vector2( 0, -21.761 )
+scale = Vector2( 0.05, 0.05 )
+
+[node name="TopSprite" type="AnimatedSprite" parent="top"]
+scale = Vector2( 1, 1 )
+frames = SubResource( 4 )
+
+[node name="RightArm" type="Sprite" parent="top/TopSprite"]
+position = Vector2( -20, 15.22 )
+z_index = 2
+texture = ExtResource( 8 )
+offset = Vector2( 160, 9.19495 )
+script = ExtResource( 2 )
+
+[node name="LeftArm" type="Sprite" parent="top/TopSprite/RightArm"]
+position = Vector2( 107.576, 5.95792 )
+scale = Vector2( 1, 1 )
+z_index = -3
+texture = ExtResource( 7 )
+
+[node name="BulletOrigin" type="Node2D" parent="top/TopSprite/RightArm"]
+position = Vector2( 353, -29.0001 )
+scale = Vector2( 20, 20 )
+
+[node name="BottomSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0, -6 )
+scale = Vector2( 0.05, 0.05 )
+frames = ExtResource( 1 )
+
+[node name="Unattached" type="Node" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="Unattached"]
+current = true
+zoom = Vector2( 0.2, 0.2 )
+script = ExtResource( 5 )
+
+[node name="FiredShots" type="Node2D" parent="Unattached"]
+
+[node name="Crosshair" parent="Unattached" instance=ExtResource( 4 )]
+
+[connection signal="area_entered" from="HitBoxArea" to="." method="_on_HitBoxArea_area_entered"]
