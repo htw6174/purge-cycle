@@ -7,6 +7,8 @@ export(float) var move_speed: float = 120
 export(PackedScene) var bullet_scene: PackedScene
 export(NodePath) var crosshair_path: NodePath
 onready var crosshair: Node2D = get_node(crosshair_path)
+export(NodePath) var bullet_origin_path: NodePath
+onready var bullet_origin: Node2D = get_node(bullet_origin_path)
 
 var current_hp: int
 var controls_enabled: bool = true
@@ -40,6 +42,17 @@ func _physics_process(delta):
 		if Input.is_action_pressed("move_up"):
 			move_vector.y -= 1
 		
+		if move_vector.x < 0:
+			$Bottom.scale.x = -1
+		else:
+			$Bottom.scale.x = 1
+		
+		var aim_diff: Vector2 = get_global_mouse_position() - self.global_position
+		if aim_diff.x < 0:
+			$Top.scale.x = -1
+		else:
+			$Top.scale.x = 1
+		
 		if move_vector.length() > 0:
 			move_vector = move_vector.normalized() * move_speed
 		
@@ -60,7 +73,7 @@ func stop_fire():
 
 func fire():
 	var new_shot = bullet_scene.instance() as Bullet
-	new_shot.position = self.position + $BulletOrigin.position
+	new_shot.position = bullet_origin.global_position
 	$Unattached/FiredShots.add_child(new_shot)
 	new_shot.fire_towards(crosshair)
 	#new_shot.owner = $Unattached/FiredShots
